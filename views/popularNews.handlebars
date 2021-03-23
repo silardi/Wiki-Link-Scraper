@@ -1,0 +1,32 @@
+<h2>Popular News</h2>
+
+<div>
+    <img src="/images/nyt2.jpg" class="w-25 h-25">
+    <p>Photo by <a href="https://unsplash.com/@markusspiske?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Markus Spiske</a> 
+    on <a href="https://unsplash.com/s/photos/newspaper?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></p>
+</div>
+
+<form>
+    <fieldset>
+        <legend>Most Popular News by Time Range</legend>
+        <p>
+            (powered by <a href="https://developer.nytimes.com/apis">The New York Times</a>)
+        </p>
+        <p>
+        <p>
+            <label>Select a time range:</label>
+            <select id = "range">
+            <option value = "1">1 day</option>
+            <option value = "7">7 days</option>
+            <option value = "30">30 days</option>
+            </select>
+        </p>
+        <p>
+            <input type="submit" id="formSubmit">
+        </p>
+    </fieldset>
+</form>
+
+<ul id="results"></ul>
+
+<script src='/js/popularNews.js'></script>
