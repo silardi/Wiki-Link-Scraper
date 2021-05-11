@@ -1,4 +1,4 @@
-# News Aggregator
+# Wiki Link Scraper
 
 ## Description
 
