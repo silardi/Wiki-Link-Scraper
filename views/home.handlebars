@@ -1,59 +1,25 @@
-<h2>Welcome to News Aggregator!</h2>
-
-<p>Visit the <a href="/popularnews">Popular News</a> page to find the most popular news within a specified time range.</p>
-<p>Visit the <a href="/search">Search</a> page to find news based on your own search parameters.</p>
-
-{{!-- Bootstrap Carousel was used to create the carousel animation --}}
-<div class="container">
-        {{!-- "carousel" class tells Bootstrap that the div contains a carousel
-        "slide" class adds slide animation effect when switching between images
-        data-ride tells Bootstrap to animate the carousel when the page loads --}}
-        <div id="aCarousel" class="carousel slide" data-ride="carousel">
-            {{!-- these list items represent the indicators at the bottom of each image
-            data-target points to carousel id
-            data-slide-to creates ability to click on specific indicator go to the image it represents --}}
-            <ol class="carousel-indicators">
-                <li data-target="#aCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#aCarousel" data-slide-to="1"></li>
-                <li data-target="#aCarousel" data-slide-to="2"></li>
-            </ol>
-            {{!-- the three images that make up the carousel and their sources are contained in this div
-            the first image contains the additional active class to make the carousel visible --}}
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="/images/nyt.jpg" alt="NYT Paper" class="w-100 h-100">
-                    <span>Photo by <a href="https://unsplash.com/@jontyson?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Jon Tyson</a> 
-                    on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>                   
-                </div>
-                <div class="carousel-item">
-                    <img src="/images/app.jpg" alt="NYT App" class="w-100 h-100">
-                    <span>Photo by <a href="https://unsplash.com/@sushioutlaw?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Brian McGowan</a> 
-                    on <a href="https://unsplash.com/?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
-                </div>
-                <div class="carousel-item">
-                    <img src="/images/paper.jpg" alt="Paper" class="w-100 h-100">
-                    <span>Photo by <a href="https://unsplash.com/@freegraphictoday?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">AbsolutVision</a>
-                     on <a href="https://unsplash.com/s/photos/news?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
-                </div>
-
-            {{!-- this div controls the left and right functionality of the carousel
-            href points to the id of the carousel and data-slide="prev" causes previous image to appear when clicked (same for next) --}}
-            </div>
-            <a href="#aCarousel" class="carousel-control-prev" data-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a href="#aCarousel" class="carousel-control-next" data-slide="next">
-                <span class="carousel-control-next-icon"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div>
+<div id="home">
+    <p>
+        Enter the title of a Wikipedia page to view all of the linked keywords from that page
+    </p>
+    <form>
+        <fieldset>
+            <p>
+                <input type="text" name="search" id="search">
+                <input type="button" id="get-results" value="Get Results">
+                {{!-- <input type="button" value="Submit" class="button_active"/> --}}
+            </p>
+        </fieldset>
+    </form>
 </div>
 
-{{!-- Bootstrap js files --}}
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha384-Qg00WFl9r0Xr6rUqNLv1ffTSSKEFFCDCKVyHZ+sVt8KuvG99nWw5RNvbhuKgif9z" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<div id="results-div">
+    {{!-- <p id="results-title">Results:</p> --}}
+    {{!-- <ul id="results"></ul> --}}
+    <span id="results-search">
 
+    </span>
 
+</div>
+
+<script src="/js/script.js"></script>

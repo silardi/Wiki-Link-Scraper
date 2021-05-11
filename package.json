@@ -1,20 +1,16 @@
 {
-  "name": "hello-world",
+  "name": "news-aggregator",
   "version": "1.0.0",
-  "description": "Hello world with express and node.js",
-  "main": "app.js",
+  "description": "New York Times news aggregator with express and node.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "author": "OSU",
+  "author": "Stephen Ilardi",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.13.3",
     "dotenv": "^8.2.0",
     "express": "^4.13.2",
     "express-handlebars": "^2.0.1",
-    "express-session": "^1.11.3",
-    "mysql": "^2.8.0",
     "request": "^2.88.2"
   }
 }
