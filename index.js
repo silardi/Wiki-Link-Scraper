@@ -4,13 +4,13 @@ const port = process.env.PORT || 4333
 const request = require('request');
 const handlebars = require('express-handlebars').create({defaultLayout:'main'});
 require('dotenv').config();
-
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', port);
 app.use(express.static('public'));
-
-const apiKey = process.env.API_KEY
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 
 app.get('/',function(req,res){
@@ -32,32 +32,27 @@ app.get('/searching',function(req,res,next){
   });
 });
 
-// app.get('/results',function(req,res){
-//   res.render('results');
-// });
-
-app.get('/popularnews',function(req,res){
-      res.render('popularNews');
-});
-
-app.get('/popular',function(req,res,next){
-  const timeRange = req.query.timeRange
-  request('https://api.nytimes.com/svc/mostpopular/v2/viewed/' + 
-  timeRange + '.json?api-key=' + apiKey, function(err, response, body){
-    if(!err && response.statusCode < 400){
-      res.send(body);
-    } else {
-      if(response){
-        console.log(response.statusCode);
-      }
-      next(err);
+app.post('/link-check',function(req,res,next){
+  const options = {
+    url: 'https://cs361-project-brennaco.ue.r.appspot.com',
+    json: true,
+    body: {
+        links: req.body.links
     }
+}
+  request.post(options, function(err, response, body){
+      if(!err && response.statusCode < 400){
+        console.log(body);
+        res.send(body);
+      }else{
+        console.log(err);
+        if(response){
+          console.log(response.statusCode);
+        }
+        next(err);
+      }
+    });
   });
-});
-
-app.get('/search',function(req,res){
-  res.render('search');
-});
 
 app.use(function(req,res){
   res.status(404);
