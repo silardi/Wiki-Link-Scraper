@@ -1,38 +1,37 @@
 document.addEventListener('DOMContentLoaded', getLinks);
-const baseUrl = "http://flip2.engr.oregonstate.edu:4333/searching?searchTerm=";
-const baseUrlV2 = "http://flip2.engr.oregonstate.edu:4333/link-check";
+const searchURL = "http://flip2.engr.oregonstate.edu:4222/searching?searchTerm=";
+const linkCheckURL = "http://flip2.engr.oregonstate.edu:4222/link-check";
 function getLinks(){
   document.getElementById('get-results').addEventListener('click', function (event) {
     const req = new XMLHttpRequest();
     const search = document.getElementById('search').value;
-    req.open('GET', baseUrl + search, true);
+    req.open('GET', searchURL + search, true);
 
     req.addEventListener('load', function () {
       if (req.status >= 200 && req.status < 400) {
-
         console.log(JSON.parse(req.responseText));
         const obj = JSON.parse(req.responseText);
-        // console.log(obj.parse.links[1]["*"]);
 
         // populates linksObj
-        // need to remove comma for last URL
         const resultsLength = obj.parse.links.length;
-        const linksObj = {links: ''};
+        const linksObj = {links: []};
         for (var i = 1; i < resultsLength; i++) {
-          const title = obj.parse.links[i]["*"];
-          linksObj.links += "https://en.wikipedia.org/wiki/" + title + ", ";
+          let title = obj.parse.links[i]["*"];
+          if (title.includes(",")) {
+            title = title.replace(",", "");
+          }
+          linksObj.links.push("https://en.wikipedia.org/wiki/" + title);
         }
+        console.log(linksObj);
 
         //POST request to server which will be sent to Corey's service from server
         const req2 = new XMLHttpRequest();
         const payload = linksObj;
-        req2.open('POST', baseUrlV2, true);
+        req2.open('POST', linkCheckURL, true);
         req2.setRequestHeader('Content-Type', 'application/json');
         req2.addEventListener('load',function(){
           if(req2.status >= 200 && req2.status < 400){
-            console.log(req2.responseText);
             var response = JSON.parse(req2.responseText);
-            console.log(response);
             const resultsTitle = document.createElement("p");
             resultsTitle.id = "results-title";
             resultsTitle.innerHTML = "Results (&#x2713; = link is working, &#x2717; = not working): "
@@ -44,13 +43,16 @@ function getLinks(){
               const link = "https://en.wikipedia.org/wiki/" + title;
               if (response.notWorking.includes(link)) {
                 var titleWithGrade = title + "&#x2717";
-                console.log("triggered");
               } else {
                 var titleWithGrade = title + "&#x2713";
               }
               listItem.innerHTML = titleWithGrade.link("https://en.wikipedia.org/wiki/" + title);
               list.appendChild(listItem);
-              linksObj.links += "https://en.wikipedia.org/wiki/" + title + ", ";
+
+              if (title.includes(",")) {
+                title.replace(",", "");
+              }
+              console.log(title)
             }
               
             const nl = document.createElement("br");
@@ -83,16 +85,28 @@ function getLinks(){
             resultsSearch.appendChild(resultsSearchList);
     
             // Provides "more results" functionality
-            // Could add a const here with a message "No more results" to include in the loop before the break
+            const noMoreResultsMsg = document.createElement("p");
+            noMoreResultsMsg.id = "results-msg";
+            noMoreResultsMsg.innerHTML = "All results have been displayed"
             moreResults.addEventListener('click', function (event) {
               for (var i = count; i < count + 31; i++) {
-                if (i == resultsLength) { break; }
+                if (i >= resultsLength) { 
+                  list.removeChild(moreResults);
+                  list.appendChild(document.createElement("br"));
+                  list.appendChild(noMoreResultsMsg);
+                  break; 
+                }
                 const listItem = document.createElement("li");
                 const title = obj.parse.links[i]["*"];
                 const link = "https://en.wikipedia.org/wiki/" + title;
+
+                if (title.includes(",")) {
+                  title.replace(",", "");
+                }
+                console.log(title);
+
                 if (response.notWorking.includes(link)) {
                   var titleWithGrade = title + "&#x2717";
-                  console.log("triggered");
                 } else {
                   var titleWithGrade = title + "&#x2713";
                 }
@@ -116,14 +130,12 @@ function getLinks(){
 
                   if (response.notWorking.includes(link)) {
                     var titleWithGrade = title + "&#x2717";
-                    console.log("triggered");
                   } else {
                     var titleWithGrade = title + "&#x2713";
                   }
 
                   listItem.innerHTML = titleWithGrade.link("https://en.wikipedia.org/wiki/" + title);
                   resultsSearchList.appendChild(listItem);
-                  console.log("success")
                 }
               }
               count = count + 31;
@@ -145,8 +157,4 @@ function getLinks(){
     req.send(null);
     event.preventDefault();
   })
-}
-
-function convert(linksArray){
-
 }

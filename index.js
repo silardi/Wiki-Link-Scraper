@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 4333
+const port = process.env.PORT || 4222
 const request = require('request');
 const handlebars = require('express-handlebars').create({defaultLayout:'main'});
 require('dotenv').config();
@@ -18,7 +18,9 @@ app.get('/',function(req,res){
 });
 
 app.get('/searching',function(req,res,next){
-  const searchTerm = req.query.searchTerm
+  const searchTerm = req.query.searchTerm;
+  console.log(searchTerm);
+
   request('https://en.wikipedia.org/w/api.php?action=parse&page=' + 
   searchTerm + '&prop=links&format=json', function(err, response, body){
     if(!err && response.statusCode < 400){
@@ -40,6 +42,7 @@ app.post('/link-check',function(req,res,next){
         links: req.body.links
     }
 }
+console.log(req.body.links);
   request.post(options, function(err, response, body){
       if(!err && response.statusCode < 400){
         console.log(body);
